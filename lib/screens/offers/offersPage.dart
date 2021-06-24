@@ -8,8 +8,8 @@ class OffersPage extends StatefulWidget {
 class _OffersPageState extends State<OffersPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Offers Page'),
+    return SafeArea(
+      child: Scaffold(),
     );
   }
 }

@@ -7,13 +7,16 @@ class OrderModel {
   static const PINCODE = "pincode";
   static const DATETIME = "datetime";
   static const STATUS = "deliverystatus";
+  static const USERID = "userId";
+  static const DOCID = "docId";
 
-  String id;
   double totalprice;
   String cusname;
   String address;
   String phone;
   String pincode;
+  String userId;
+  String docId;
   var datetime;
   String status;
   List<OrderItemModel> item;
@@ -23,6 +26,8 @@ class OrderModel {
       this.status,
       this.item,
       this.cusname,
+      this.userId,
+      this.docId,
       this.totalprice,
       this.datetime,
       this.phone,
@@ -32,9 +37,12 @@ class OrderModel {
     phone = data[PHONE];
     address = data[ADDRESS];
     cusname = data[CUSNAME];
+    docId = data[DOCID];
     pincode = data[PINCODE];
     datetime = data[DATETIME];
+    totalprice = data[TOTALPRICE];
     status = data[STATUS];
+    userId = data[USERID];
     item = _convertCartItems(data[ITEM]);
   }
 }
@@ -65,10 +73,10 @@ class OrderItemModel {
 
   String id;
   String image;
-  int quantity;
-  double cost;
+  String quantity;
+  String cost;
   String productId;
-  double price;
+  String price;
   String variationtype;
   String pname;
 
@@ -103,4 +111,19 @@ class OrderItemModel {
         COST: price,
         PRICE: price,
       };
+}
+
+class OrderConfigModel {
+  static const RANGE = 'range';
+  static const MINFEE = 'minfee';
+  static const MAXFEE = 'maxfee';
+  String minfee;
+  String maxfee;
+  String range;
+  OrderConfigModel({this.minfee, this.maxfee, this.range});
+  OrderConfigModel.fromMap(data) {
+    minfee = data[MINFEE];
+    maxfee = data[MAXFEE];
+    range = data[RANGE];
+  }
 }

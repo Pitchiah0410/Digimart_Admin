@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:digimartadmin/constants/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,18 +10,19 @@ class FileInfoCardGridView extends StatelessWidget {
   final double childAspectRatio;
   FileInfoCardGridView({
     Key key,
-    this.crossAxisCount = 4,
-    this.childAspectRatio = 1,
+    this.crossAxisCount,
+    this.childAspectRatio,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final Size _size = MediaQuery.of(context).size;
     return Obx(
       () => GridView.count(
         shrinkWrap: true,
-        crossAxisCount: 4,
+        crossAxisCount: _size.width < 650 ? 2 : 4,
+        childAspectRatio: 16 / 9,
         crossAxisSpacing: 16.0,
         mainAxisSpacing: 16.0,
-        childAspectRatio: childAspectRatio,
         physics: NeverScrollableScrollPhysics(),
         children: [
           Card(
@@ -33,15 +35,12 @@ class FileInfoCardGridView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Total Product',
-                        style: Theme.of(context).textTheme.title),
-                    Row(
-                      children: [
-                        Text(productsController.products.length.toString(),
-                            style: Theme.of(context).textTheme.title),
-                        // Image.asset('assets/icons/shopping_bag.png')
-                      ],
-                    )
+                    AutoSizeText('Total Product',
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 20.0, color: Colors.white)),
+                    AutoSizeText(productsController.products.length.toString(),
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 20.0, color: Colors.white))
                   ],
                 ),
               ),
@@ -57,15 +56,18 @@ class FileInfoCardGridView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Total Categories',
-                        style: Theme.of(context).textTheme.title),
-                    Row(
-                      children: [
-                        Text(productsController.categories.length.toString(),
-                            style: Theme.of(context).textTheme.title),
-                        // Image.asset('assets/icons/shopping_bag.png')
-                      ],
-                    )
+                    AutoSizeText('Total Earnings',
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 20.0, color: Colors.white)),
+                    AutoSizeText(
+                        orderController.orders
+                            .fold(
+                                0,
+                                (previousValue, element) =>
+                                    previousValue + element.totalprice)
+                            .toString(),
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 20.0, color: Colors.white))
                   ],
                 ),
               ),
@@ -81,15 +83,12 @@ class FileInfoCardGridView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Total Oders',
-                        style: Theme.of(context).textTheme.title),
-                    Row(
-                      children: [
-                        Text(orderController.orders.length.toString(),
-                            style: Theme.of(context).textTheme.title),
-                        // Image.asset('assets/icons/shopping_bag.png')
-                      ],
-                    )
+                    AutoSizeText('Total Oders',
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 20.0, color: Colors.white)),
+                    AutoSizeText(orderController.orders?.length.toString(),
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 20.0, color: Colors.white))
                   ],
                 ),
               ),
@@ -105,15 +104,12 @@ class FileInfoCardGridView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Total Users',
-                        style: Theme.of(context).textTheme.title),
-                    Row(
-                      children: [
-                        Text(userController.users.length.toString(),
-                            style: Theme.of(context).textTheme.title),
-                        // Image.asset('assets/icons/shopping_bag.png')
-                      ],
-                    )
+                    AutoSizeText('Total Users',
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 20.0, color: Colors.white)),
+                    AutoSizeText(userController.users.length.toString(),
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 20.0, color: Colors.white))
                   ],
                 ),
               ),

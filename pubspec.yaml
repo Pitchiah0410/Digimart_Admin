@@ -1,5 +1,5 @@
 name: digimartadmin
-description: A new Flutter project.
+description: Groso Admin Panel.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -31,6 +31,12 @@ dependencies:
   firebase_auth: ^1.0.2
   firebase_core: ^1.0.3
   intl: ^0.17.0
+  universal_html: ^2.0.8
+  firebase: ^9.0.1
+  file_picker: ^3.0.2+2
+  uuid: ^3.0.4
+  auto_size_text: ^2.1.0
+  cached_network_image: ^3.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -53,7 +59,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/
+  #   - assets/images/
     - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
