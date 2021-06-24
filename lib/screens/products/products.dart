@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:digimartadmin/constants/constants.dart';
 import 'package:digimartadmin/constants/controllers.dart';
 import 'package:digimartadmin/models/productmodel.dart';
+import 'package:digimartadmin/screens/products/pricedetails.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
@@ -17,7 +18,6 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  List<String> variationtypelist = ['Kg', 'Ltr', 'Pcs'];
   TextEditingController minfee =
       TextEditingController(text: orderController.ordercongig.minfee);
   TextEditingController maxfee =
@@ -41,19 +41,18 @@ class _ProductsScreenState extends State<ProductsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
-      
       showTrackOnHover: true,
       controller: horizontalcontroller,
       isAlwaysShown: true,
-          child: SingleChildScrollView(
-            controller: horizontalcontroller,
+      child: SingleChildScrollView(
+        controller: horizontalcontroller,
         scrollDirection: Axis.horizontal,
         child: Scrollbar(
           showTrackOnHover: true,
           controller: verticalcontroller,
           isAlwaysShown: true,
-                child: SingleChildScrollView(
-                  controller: verticalcontroller,
+          child: SingleChildScrollView(
+            controller: verticalcontroller,
             scrollDirection: Axis.vertical,
             child: Obx(
               () => productsController.products.isEmpty
@@ -91,8 +90,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                           .toLowerCase()
                                                           .contains(value
                                                               .toLowerCase()) ||
-                                                      products.category.contains(
-                                                          value.toLowerCase()))
+                                                      products.category
+                                                          .contains(value
+                                                              .toLowerCase()))
                                                   .toList();
                                             });
                                           }),
@@ -105,21 +105,23 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 ElevatedButton.icon(
                                   onPressed: () {
                                     buildShowDialog(
-                                        context: context,
-                                        taxval: '0',
-                                        nameval: '',
-                                        priceval: '',
-                                        desval: '',
-                                        pincodeval: '',
-                                        stockval: '',
-                                        onsale: false,
-                                        featured: false,
-                                        offerpriceval: '',
-                                        category: 'Fruit',
-                                        variationval: 'Kg',
-                                        rating: '0',
-                                        isedit: false,
-                                        variationlistval: '');
+                                      context: context,
+                                      taxval: '0',
+                                      nameval: '',
+                                      // priceval: '',
+                                      desval: '',
+                                      pincodeval: '',
+                                      stockval: '',
+                                      onsale: false,
+                                      featured: false,
+                                      // offerpriceval: '',
+                                      category: productsController
+                                          .categories.first.title,
+                                      // variationval: 'Kg',
+
+                                      isedit: false,
+                                      // variationlistval: ''
+                                    );
                                   },
                                   icon: Icon(Icons.add),
                                   label: Text('Add Item'),
@@ -236,40 +238,41 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                   child: CircularProgressIndicator(),
                                 )
                               : SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.81,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.81,
                                   child: PaginatedDataTable(
-                                    
                                     showCheckboxColumn: false,
                                     source: DataTableSourceExpedition(
                                       context: context,
-                                      onRowClicked: (index){
+                                      onRowClicked: (index) {
                                         var element = usersFiltered[index];
                                         String pincodestring =
-                                        element.pincode.toString();
-                                    buildShowDialog(
-                                        context: context,
-                                        taxval: element.tax,
-                                        nameval: element.name,
-                                        priceval: element.price.toString(),
-                                        desval: element.description,
-                                        pincodeval: pincodestring.substring(
-                                            1, pincodestring.length - 1),
-                                        stockval: element.quantity.toString(),
-                                        onsale: element.onsale,
-                                        featured: element.featured,
-                                        offerpriceval:
-                                            element.offerprice.toString(),
-                                        category: element.category,
-                                        variationval: element.variationtype,
-                                        rating: element.rating,
-                                        isedit: true,
-                                        variationlistval: element.variation
-                                            .toString()
-                                            .replaceAll('[', '')
-                                            .replaceAll(']', ''),
-                                        docid: element.docid,
-                                        image: element.photo[0]);
-                                  },
+                                            element.pincode.toString();
+                                        buildShowDialog(
+                                            context: context,
+                                            taxval: element.tax,
+                                            nameval: element.name,
+                                            // priceval: element.price.toString(),
+                                            desval: element.description,
+                                            pincodeval: pincodestring.substring(
+                                                1, pincodestring.length - 1),
+                                            stockval:
+                                                element.quantity.toString(),
+                                            onsale: element.onsale,
+                                            featured: element.featured,
+                                            // offerpriceval:
+                                            //     element.offerprice.toString(),
+                                            category: element.category,
+                                            // variationval: element.variationtype,
+                                            // rating: element.rating,
+                                            isedit: true,
+                                            // variationlistval: element.variation
+                                            //     .toString()
+                                            //     .replaceAll('[', '')
+                                            //     .replaceAll(']', ''),
+                                            docid: element.docid,
+                                            image: element.photo[0]);
+                                      },
                                       expeditions: usersFiltered,
                                     ),
                                     showFirstLastButtons: true,
@@ -299,9 +302,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                       DataColumn(
                                         label: Text('Product ID'),
                                       ),
-                                      DataColumn(
-                                        label: Text('Price'),
-                                      ),
+                                      // DataColumn(
+                                      //   label: Text('Price'),
+                                      // ),
                                       DataColumn(
                                         label: Text('Available Stock'),
                                       ),
@@ -335,31 +338,32 @@ class _ProductsScreenState extends State<ProductsScreen> {
       {BuildContext context,
       taxval,
       nameval,
-      priceval,
+      // priceval,
       desval,
       pincodeval,
       stockval,
       onsale,
       featured,
-      offerpriceval,
+      // offerpriceval,
       category,
-      variationval,
-      rating,
+      // variationval,
       bool isedit,
-      variationlistval,
+      // variationlistval,
       docid,
       image}) {
+    ScrollController scrollbarcontroller = ScrollController();
     var uuid = Uuid();
     TextEditingController pname = TextEditingController(text: nameval);
-    TextEditingController regularprice = TextEditingController(text: priceval);
     TextEditingController pdescription = TextEditingController(text: desval);
     TextEditingController pincode = TextEditingController(text: pincodeval);
     TextEditingController stock = TextEditingController(text: stockval);
     TextEditingController tax = TextEditingController(text: taxval);
-    TextEditingController offerprice =
-        TextEditingController(text: offerpriceval);
-    TextEditingController variationlist =
-        TextEditingController(text: variationlistval);
+
+    // TextEditingController offerprice =
+    //     TextEditingController(text: offerpriceval);
+    // TextEditingController regularprice = TextEditingController(text: priceval);
+    // TextEditingController variationlist =
+    //     TextEditingController(text: variationlistval);
     return showDialog(
       barrierDismissible: false,
       context: context,
@@ -367,321 +371,410 @@ class _ProductsScreenState extends State<ProductsScreen> {
         return StatefulBuilder(builder: (context, setstate) {
           return Dialog(
             backgroundColor: bgColor,
-            child: SingleChildScrollView(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.5,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Add Products',
-                        style: Theme.of(context).textTheme.title,
-                      ),
-                    ),
-                    Card(
-                        color: secondaryColor,
-                        child: Center(
-                          child: TextButton.icon(
-                              onPressed: () => uploadToStorage(
-                                  fileName:
-                                      DateTime.now().millisecondsSinceEpoch),
-                              icon: Icon(Icons.upload_file),
-                              label: Text('Upload Image')),
-                        )),
-                    Card(
-                      color: secondaryColor,
-                      child: Padding(
+            child: Scrollbar(
+              showTrackOnHover: true,
+              isAlwaysShown: true,
+              controller: scrollbarcontroller,
+              child: SingleChildScrollView(
+                controller: scrollbarcontroller,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: pname,
-                          decoration: InputDecoration(
-                              labelText: 'Enter Product Name',
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always),
+                        child: Text(
+                          'Add Products',
+                          style: Theme.of(context).textTheme.title,
                         ),
                       ),
-                    ),
-                    Card(
-                      color: secondaryColor,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                            controller: regularprice,
-                            decoration: InputDecoration(
-                                labelText: 'Enter Regular Price',
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.always)),
-                      ),
-                    ),
-
-                    Card(
-                      color: secondaryColor,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: pdescription,
-                          decoration: InputDecoration(
-                              labelText: 'Enter Product Description',
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always),
-                        ),
-                      ),
-                    ),
-                    Card(
-                      color: secondaryColor,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text('Variation'),
-                          trailing: DropdownButton(
-                            value: variationval,
-                            onChanged: (value) {
-                              setstate(() {
-                                variationval = value;
-                              });
-                            },
-                            items: [
-                              DropdownMenuItem(
-                                value: 'Kg',
-                                child: Text('Kg'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'Ml',
-                                child: Text('Ml'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Card(
-                      color: secondaryColor,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: variationlist,
-                          decoration: InputDecoration(
-                              labelText:
-                                  'Enter List of Quantity seperated by comma (,); Eg. 500g, 250g, 1Kg',
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always),
-                        ),
-                      ),
-                    ),
-                    Card(
-                      color: secondaryColor,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text('Featured Product'),
-                          trailing: DropdownButton(
-                            value: featured,
-                            onChanged: (value) {
-                              setstate(() {
-                                featured = value;
-                              });
-                            },
-                            items: [
-                              DropdownMenuItem(
-                                value: true,
-                                child: Text('True'),
-                              ),
-                              DropdownMenuItem(
-                                value: false,
-                                child: Text('False'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Card(
-                      color: secondaryColor,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: pincode,
-                          decoration: InputDecoration(
-                              labelText:
-                                  'Enter List of Pincode seperated by comma (,)',
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always),
-                        ),
-                      ),
-                    ),
-                    Card(
-                      color: secondaryColor,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: tax,
-                          decoration: InputDecoration(
-                              hintText: 'Enter Product Tax in %',
-                              labelText: 'Enter Product Tax in %',
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always),
-                        ),
-                      ),
-                    ),
-                    // Card(
-                    //   color: secondaryColor,
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.all(8.0),
-                    //     child: TextField(
-                    //       controller: shippingfee,
-                    //       decoration: InputDecoration(
-                    //           hintText: 'Enter Product Shipping Fee'),
-                    //     ),
-                    //   ),
-                    // ),
-                    Card(
-                      color: secondaryColor,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: stock,
-                          decoration: InputDecoration(
-                              labelText:
-                                  'Enter Total Product Stock in $variationval',
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always),
-                        ),
-                      ),
-                    ),
-                    Card(
-                      color: secondaryColor,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text('On Sale'),
-                          trailing: DropdownButton(
-                            value: onsale,
-                            onChanged: (value) {
-                              setstate(() {
-                                onsale = value;
-                              });
-                            },
-                            items: [
-                              DropdownMenuItem(
-                                value: true,
-                                child: Text('True'),
-                              ),
-                              DropdownMenuItem(
-                                value: false,
-                                child: Text('False'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Visibility(
-                      visible: onsale,
-                      child: Card(
+                      Card(
+                          color: secondaryColor,
+                          child: Center(
+                            child: TextButton.icon(
+                                onPressed: () => uploadToStorage(
+                                    fileName:
+                                        DateTime.now().millisecondsSinceEpoch),
+                                icon: Icon(Icons.upload_file),
+                                label: Text('Upload Image')),
+                          )),
+                      Card(
                         color: secondaryColor,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextField(
-                            controller: offerprice,
+                            controller: pname,
                             decoration: InputDecoration(
-                                labelText: 'Offer Price',
+                                labelText: 'Enter Product Name',
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.always),
                           ),
                         ),
                       ),
-                    ),
-                    Card(
-                      color: secondaryColor,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text('Select your category :'),
-                          trailing: DropdownButton(
-                            value: category,
-                            onChanged: (value) {
-                              setstate(() {
-                                category = value;
-                              });
-                            },
-                            items: productsController.categories
-                                .map<DropdownMenuItem<String>>((value) {
-                              return DropdownMenuItem<String>(
-                                value: value.title,
-                                child: Text(value.title ?? ''),
-                              );
-                            }).toList(),
+                      // Card(
+                      //   color: secondaryColor,
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(8.0),
+                      //     child: TextField(
+                      //         controller: regularprice,
+                      //         decoration: InputDecoration(
+                      //             labelText: 'Enter Regular Price',
+                      //             floatingLabelBehavior:
+                      //                 FloatingLabelBehavior.always)),
+                      //   ),
+                      // ),
+
+                      Card(
+                        color: secondaryColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: pdescription,
+                            decoration: InputDecoration(
+                                labelText: 'Enter Product Description',
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text('Cancel'),
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(primaryColor),
+                      Container(
+                        width: double.infinity,
+                        child: Card(
+                          color: secondaryColor,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Obx(
+                              () => Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                PriceDetails(),
+                                          ),
+                                        );
+                                        print(productsController.price);
+                                      },
+                                      child: Text('Add Price'),
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                primaryColor),
+                                      ),
+                                    ),
+                                    Card(
+                                      color: bgColor,
+                                      // child: ListView.builder(
+                                      //     shrinkWrap: true,
+                                      //     itemCount:
+                                      //         productsController.price.length,
+                                      //     itemBuilder: (context, index) {
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: DataTable(
+                                          rows: productsController.price.map(
+                                            (element) => DataRow(
+                                              cells: [
+                                                DataCell(
+                                                  Text(element.variation),
+                                                ),
+                                                DataCell(
+                                                  Text(element.price),
+                                                ),
+                                                DataCell(
+                                                  Text(element.offerprice),
+                                                )
+                                              ],
+                                            ),
+                                          ).toList(),
+                                          columns: [
+                                            // DataColumn(
+                                            //   label: Text('SI.No'),
+                                            // ),
+                                            DataColumn(
+                                              label: Text('Variation'),
+                                            ),
+                                            DataColumn(
+                                              label: Text('MRP'),
+                                            ),
+                                            DataColumn(
+                                              label: Text('Offer Price'),
+                                            ),
+                                          ],
+                                        ),
+                                        // child: Row(
+                                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        //   children: [
+                                        //     Text(productsController
+                                        //         .price[index].variation),
+                                        //         Text(productsController
+                                        //         .price[index].price),
+                                        //         Text(productsController
+                                        //         .price[index].variation),
+                                        //   ],
+                                        // ),
+                                      ),
+                                    ),
+                                  ]),
                             ),
                           ),
-                          ElevatedButton(
-                            onPressed: () => isedit
-                                ? productsController.updateProducts({
-                                    "name": pname.text,
-                                    "category": category,
-                                    "photo_url": [image],
-                                    "price": regularprice.text,
-                                    "quantity": double.parse(stock.text),
-                                    "tax": tax.text,
-                                    "variationtype": variationval,
-                                    "onsale": onsale,
-                                    "description": pdescription.text,
-                                    "featured": featured,
-                                    "product_id": uuid.v1(),
-                                    "rating": rating,
-                                    "pincode": pincode.text.split(','),
-                                    "discount": offerprice.text.isEmpty
-                                        ? regularprice.text
-                                        : offerprice.text,
-                                    "variation": variationlist.text.split(',')
-                                  }, docid)
-                                : productsController.addProducts({
-                                    // "variationtype" :
-                                    "name": pname.text,
-                                    "category": category,
-                                    "photo_url": [url],
-                                    "price": regularprice.text,
-                                    "quantity": double.parse(stock.text),
-                                    "variationtype": variationval,
-                                    "onsale": onsale,
-                                    "description": pdescription.text,
-                                    "featured": featured,
-                                    "tax": tax.text,
-                                    "product_id": uuid.v1(),
-                                    "rating": rating,
-                                    "pincode": pincode.text.split(','),
-                                    "discount": offerprice.text.isEmpty
-                                        ? regularprice.text
-                                        : offerprice.text,
-                                    "variation": variationlist.text.split(',')
-                                  }),
-                            child: Text('Save'),
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(primaryColor),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    )
-                  ],
+                      // Card(
+                      //   color: secondaryColor,
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(8.0),
+                      //     child: ListTile(
+                      //       title: Text('Variation'),
+                      //       trailing: DropdownButton(
+                      //         value: variationval,
+                      //         onChanged: (value) {
+                      //           setstate(() {
+                      //             variationval = value;
+                      //           });
+                      //         },
+                      //         items: [
+                      //           DropdownMenuItem(
+                      //             value: 'Kg',
+                      //             child: Text('Kg'),
+                      //           ),
+                      //           DropdownMenuItem(
+                      //             value: 'Ml',
+                      //             child: Text('Ml'),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // Card(
+                      //   color: secondaryColor,
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(8.0),
+                      //     child: TextField(
+                      //       controller: variationlist,
+                      //       decoration: InputDecoration(
+                      //           labelText:
+                      //               'Enter List of Quantity seperated by comma (,); Eg. 500g, 250g, 1Kg',
+                      //           floatingLabelBehavior:
+                      //               FloatingLabelBehavior.always),
+                      //     ),
+                      //   ),
+                      // ),
+                      Card(
+                        color: secondaryColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            title: Text('Featured Product'),
+                            trailing: DropdownButton(
+                              value: featured,
+                              onChanged: (value) {
+                                setstate(() {
+                                  featured = value;
+                                });
+                              },
+                              items: [
+                                DropdownMenuItem(
+                                  value: true,
+                                  child: Text('True'),
+                                ),
+                                DropdownMenuItem(
+                                  value: false,
+                                  child: Text('False'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        color: secondaryColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: pincode,
+                            decoration: InputDecoration(
+                                labelText:
+                                    'Enter List of Pincode seperated by comma (,)',
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        color: secondaryColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: tax,
+                            decoration: InputDecoration(
+                                hintText: 'Enter Product Tax in %',
+                                labelText: 'Enter Product Tax in %',
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        color: secondaryColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: stock,
+                            decoration: InputDecoration(
+                                labelText: 'Enter Total Product Stock ',
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        color: secondaryColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            title: Text('On Sale'),
+                            trailing: DropdownButton(
+                              value: onsale,
+                              onChanged: (value) {
+                                setstate(() {
+                                  onsale = value;
+                                });
+                              },
+                              items: [
+                                DropdownMenuItem(
+                                  value: true,
+                                  child: Text('True'),
+                                ),
+                                DropdownMenuItem(
+                                  value: false,
+                                  child: Text('False'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      // ),
+                      // Visibility(
+                      //   visible: onsale,
+                      //   child: Card(
+                      //     color: secondaryColor,
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.all(8.0),
+                      //       child: TextField(
+                      //         controller: offerprice,
+                      //         decoration: InputDecoration(
+                      //             labelText: 'Offer Price',
+                      //             floatingLabelBehavior:
+                      //                 FloatingLabelBehavior.always),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      Card(
+                        color: secondaryColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            title: Text('Select your category :'),
+                            trailing: DropdownButton(
+                              value: category,
+                              onChanged: (value) {
+                                setstate(() {
+                                  category = value;
+                                });
+                              },
+                              items: productsController.categories
+                                  .map<DropdownMenuItem<String>>((value) {
+                                return DropdownMenuItem<String>(
+                                  value: value.title,
+                                  child: Text(value?.title),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                productsController.price.clear();
+                                 Navigator.pop(context);},
+                              child: Text('Cancel'),
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(primaryColor),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: (){
+                                
+                                isedit
+                                  ? productsController.updateProducts({
+                                      "name": pname.text,
+                                      "category": category,
+                                      "photo_url": [image],
+                                      "price": productsController.price.map((element) => {'variation':element.variation,
+                                      'mrp':element.price,
+                                      'offerprice':element.offerprice}).toList(),
+                                      "quantity": double.parse(stock.text),
+                                      "tax": tax.text,
+                                      // "variationtype": variationval,
+                                      "onsale": onsale,
+                                      "description": pdescription.text,
+                                      "featured": featured,
+                                      "product_id": uuid.v1(),
+
+                                      "pincode": pincode.text.split(','),
+                                      // "discount": offerprice.text.isEmpty
+                                      //     ? regularprice.text
+                                      //     : offerprice.text,
+                                      // "variation": variationlist.text.split(',')
+                                    }, docid)
+                                  : productsController.addProducts({
+                                      // "variationtype" :
+                                      "name": pname.text,
+                                      "category": category,
+                                      "photo_url": [url],
+                                      "price": productsController.price.map((element) => {'variation':element.variation,
+                                      'mrp':element.price,
+                                      'offerprice':element.offerprice}).toList(),
+                                      "quantity": double.parse(stock.text),
+                                      // "variationtype": variationval,
+                                      "onsale": onsale,
+                                      "description": pdescription.text,
+                                      "featured": featured,
+                                      "tax": tax.text,
+                                      "product_id": uuid.v1(),
+
+                                      "pincode": pincode.text.split(','),
+                                      // "discount": offerprice.text.isEmpty
+                                      //     ? regularprice.text
+                                      //     : offerprice.text,
+                                      // "variation": variationlist.text.split(',')
+                                    });},
+                              child: Text('Save'),
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(primaryColor),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -829,8 +922,9 @@ class DataTableSourceExpedition extends DataTableSource {
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: CachedNetworkImage(
-               imageUrl: currentRowData.photo[0],
-               placeholder:(context, url) =>Image.asset('assets/icons/loading.gif'),
+                imageUrl: currentRowData.photo[0],
+                placeholder: (context, url) =>
+                    Image.asset('assets/icons/loading.gif'),
                 height: 70,
                 width: 45,
               ),
@@ -840,7 +934,7 @@ class DataTableSourceExpedition extends DataTableSource {
             Text(currentRowData.name),
           ),
           DataCell(Text(currentRowData.productid)),
-          DataCell(Text(currentRowData.price)),
+          // DataCell(Text(currentRowData.price)),
           DataCell(Text(currentRowData.quantity.toString())),
           DataCell(Text(currentRowData.onsale.toString())),
           DataCell(Text(currentRowData.offerprice)),

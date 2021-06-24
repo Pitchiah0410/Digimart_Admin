@@ -29,6 +29,9 @@ class UserController extends GetxController {
         .doc(order.userId)
         .collection('orders')
         .doc(order.docId)
-        .update({'status': status});
+        .update({'deliverystatus': status});
+
+         firebaseFirestore
+        .collection('orders').doc(order.id).update({'deliverystatus': status});
   }
 }

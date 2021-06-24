@@ -11,6 +11,7 @@ class OrderModel {
   static const DOCID = "docId";
 
   double totalprice;
+  String id;
   String cusname;
   String address;
   String phone;
@@ -24,6 +25,7 @@ class OrderModel {
   OrderModel(
       {this.address,
       this.status,
+      this.id,
       this.item,
       this.cusname,
       this.userId,
@@ -33,7 +35,8 @@ class OrderModel {
       this.phone,
       this.pincode});
 
-  OrderModel.fromMap(Map<String, dynamic> data) {
+  OrderModel.fromMap(Map<String, dynamic> data,idval) {
+    id = idval;
     phone = data[PHONE];
     address = data[ADDRESS];
     cusname = data[CUSNAME];

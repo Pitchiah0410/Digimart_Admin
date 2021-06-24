@@ -37,8 +37,21 @@ class SideMenu extends StatelessWidget {
             ),
             Divider(),
             ListTile(
+              onTap: () => userController.controller.jumpToPage(3),
+              leading: Icon(Icons.shopping_cart),
+              title: Text("Order"),
+            ),
+            Divider(),
+            ListTile(
+              onTap: () => userController.controller.jumpToPage(5),
+              leading: Icon(Icons.supervisor_account),
+              title: Text("Users"),
+            ),
+            Divider(),
+            ListTile(
               onTap: () {
-                Future.delayed(Duration(microseconds: 1200), () => userController.controller.animateToPage(1, duration:Duration(microseconds: 300),
+               productsController.products.bindStream(productsController.getAllProducts());
+                Future.delayed(Duration(microseconds: 00), () => userController.controller.animateToPage(1, duration:Duration(microseconds: 300),
   curve: Curves.easeInOut,));
               },
               leading: Icon(Icons.shopping_bag),
@@ -50,18 +63,7 @@ class SideMenu extends StatelessWidget {
               leading: Icon(Icons.list),
               title: Text("Category"),
             ),
-            Divider(),
-            ListTile(
-              onTap: () => userController.controller.jumpToPage(3),
-              leading: Icon(Icons.shopping_cart),
-              title: Text("Order"),
-            ),
-            Divider(),
-            ListTile(
-              onTap: () => userController.controller.jumpToPage(5),
-              leading: Icon(Icons.supervisor_account),
-              title: Text("Users"),
-            ),
+            
             Divider(),
             ListTile(
               onTap: () {

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:digimartadmin/constants/constants.dart';
 import 'package:digimartadmin/models/productmodel.dart';
+import 'package:digimartadmin/screens/products/pricedetails.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,11 +13,12 @@ class ProducsController extends GetxController {
   // String collection = "products";
   RxList<CategoryModel> categories = RxList([]);
   RxList carousel = RxList([]);
+  RxList<PriceData> price = RxList([]);
 
   @override
   onReady() {
     super.onReady();
-    products.bindStream(getAllProducts());
+    
     categories.bindStream(getCategoryLists());
     carousel.bindStream(getCarousalLists());
   }
@@ -45,7 +47,7 @@ class ProducsController extends GetxController {
 
   Stream<List<ProductModel>> getAllProducts() => firebaseFirestore
       .collection("products")
-      .orderBy('quantity')
+      .orderBy('name')
       .snapshots()
       .map((query) => query.docs
           .map((item) => ProductModel.fromMap(item.data(), item.id))
@@ -82,6 +84,7 @@ class ProducsController extends GetxController {
         .doc(docid)
         .update(data)
         .whenComplete(() {
+          price.clear();
       Navigator.pop(Get.context);
       Navigator.pop(Get.context);
     });

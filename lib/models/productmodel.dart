@@ -3,7 +3,7 @@ class ProductModel {
   static const NAME = "name";
   static const CATEGORY = "category";
   static const PHOTO = "photo_url";
-  static const PRICE = "price";
+  // static const PRICE = "price";
   static const QUANTITY = "quantity";
   static const VARIATION = "variation";
   static const ONSALE = "onsale";
@@ -21,12 +21,11 @@ class ProductModel {
   String name;
   String category;
   List photo;
-  String price;
+  // String price;
   double quantity;
   List variation;
   bool onsale;
   String description;
-  // List reviews;
   bool featured;
   String productid;
   String offerprice;
@@ -43,7 +42,7 @@ class ProductModel {
       this.featured,
       this.onsale,
       this.photo,
-      this.price,
+      // this.price,
       this.productid,
       this.quantity,
       this.rating,
@@ -62,7 +61,7 @@ class ProductModel {
     featured = data[FEATURED];
     onsale = data[ONSALE];
     photo = data[PHOTO];
-    price = data[PRICE];
+    // price = data[PRICE];
     productid = data[PRODUCTID];
     quantity = data[QUANTITY];
     rating = data[RATINGS];
