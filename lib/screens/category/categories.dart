@@ -166,9 +166,18 @@ class _CategoriesPageState extends State<CategoriesPage> {
                             element.image,
                             width: 60,
                             height: 80,
+<<<<<<< HEAD
+=======
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
+                            child: Text(element.title),
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
+                          ),
+                          Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+<<<<<<< HEAD
                             child: Text(element.title),
                           ),
                           Spacer(),
@@ -252,6 +261,76 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                         MaterialStateProperty.all(primaryColor),
                                   ),
                                 ),
+=======
+                            child: ElevatedButton.icon(
+                              onPressed: () => showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('Are you sure'),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          'Do you want to delete ${element.title} ?',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle1,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text('Cancel'),
+                                                style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all(
+                                                          primaryColor),
+                                                ),
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  firebaseFirestore
+                                                      .collection('category')
+                                                      .doc(element.docid)
+                                                      .update({
+                                                    'categories':
+                                                        FieldValue.arrayRemove([
+                                                      {
+                                                        "photo_url":
+                                                            element.image,
+                                                        "title": element.title
+                                                      }
+                                                    ])
+                                                  });
+                                                },
+                                                child: Text('Delete'),
+                                                style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all(
+                                                          primaryColor),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                              icon: Icon(Icons.delete),
+                              label: Text('Delete'),
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(primaryColor),
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -466,7 +545,11 @@ class _CategoriesPageState extends State<CategoriesPage> {
     uploadImage(onSelected: (file) {
       fb
           .storage()
+<<<<<<< HEAD
           .refFromURL('gs://freshwheels-969bf.appspot.com/')
+=======
+          .refFromURL('gs://digimart-44fde.appspot.com/')
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
           .child(path)
           .put(file)
           .future
@@ -524,7 +607,11 @@ class _CarousalsState extends State<Carousals> {
     uploadImage(onSelected: (file) {
       fb
           .storage()
+<<<<<<< HEAD
           .refFromURL('gs://freshwheels-969bf.appspot.com/')
+=======
+          .refFromURL('gs://digimart-44fde.appspot.com/')
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
           .child(path)
           .put(file)
           .future

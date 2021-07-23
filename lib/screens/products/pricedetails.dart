@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import 'dart:html';
 import 'package:firebase/firebase.dart' as fb;
 import 'package:digimartadmin/constants.dart';
@@ -5,6 +6,11 @@ import 'package:digimartadmin/constants/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+=======
+import 'package:digimartadmin/constants.dart';
+import 'package:digimartadmin/constants/controllers.dart';
+import 'package:flutter/material.dart';
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
 class PriceDetails extends StatefulWidget {
   @override
   _PriceDetailsState createState() => _PriceDetailsState();
@@ -20,6 +26,7 @@ class _PriceDetailsState extends State<PriceDetails> {
     var variationController = TextEditingController();
     var priceController = TextEditingController();
     var offerpriceController = TextEditingController();
+<<<<<<< HEAD
 
     variationTECs.add(variationController);
     priceTECs.add(priceController);
@@ -128,6 +135,27 @@ class _PriceDetailsState extends State<PriceDetails> {
           ),
         );
       }),
+=======
+    variationTECs.add(variationController);
+    priceTECs.add(priceController);
+    offerpriceTECs.add(offerpriceController);
+    return Card(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text('Person ${cards.length + 1}'),
+          TextField(
+              controller: variationController,
+              decoration: InputDecoration(labelText: 'Variation')),
+          TextField(
+              controller: priceController,
+              decoration: InputDecoration(labelText: 'MRP')),
+          TextField(
+              controller: offerpriceController,
+              decoration: InputDecoration(labelText: 'Offer Price')),
+        ],
+      ),
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
     );
   }
 
@@ -167,24 +195,42 @@ class _PriceDetailsState extends State<PriceDetails> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: RaisedButton(
+<<<<<<< HEAD
               child: Text('Submit'),
               onPressed: _onDone,
+=======
+              child: Text('Add new'),
+              onPressed: () => setState(() => cards.add(createCard())),
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
             ),
           )
         ],
       ),
+<<<<<<< HEAD
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => setState(() => cards.add(createCard())),
       ),
+=======
+      floatingActionButton:
+          FloatingActionButton(child: Icon(Icons.done), onPressed: _onDone),
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
     );
   }
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
 class PriceData {
   final String variation;
   final String price;
   final String offerprice;
 
   PriceData(this.variation, this.price, this.offerprice);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4

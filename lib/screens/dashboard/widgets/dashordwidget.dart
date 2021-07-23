@@ -190,7 +190,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           color: bgColor,
                                           child: ListTile(
                                             title: Text(
+<<<<<<< HEAD
                                               '${data.name} (Kg)',
+=======
+                                              '${data.name} (${data.variationtype})',
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
                                               style: TextStyle(
                                                   color: data.quantity == 0
                                                       ? Colors.red
@@ -276,7 +280,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         color: bgColor,
                                         child: ListTile(
                                           title: Text(
+<<<<<<< HEAD
                                             '${data.name} (Kg)',
+=======
+                                            '${data.name} (${data.variationtype})',
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
                                             style: TextStyle(
                                                 color: data.quantity == 0
                                                     ? Colors.red

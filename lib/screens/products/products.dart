@@ -1,6 +1,9 @@
 import 'dart:html';
 
+<<<<<<< HEAD
 import 'package:cloud_firestore/cloud_firestore.dart';
+=======
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
 import 'package:digimartadmin/constants/constants.dart';
 import 'package:digimartadmin/constants/controllers.dart';
 import 'package:digimartadmin/models/productmodel.dart';
@@ -251,8 +254,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                             element.pincode.toString();
                                         buildShowDialog(
                                             context: context,
+<<<<<<< HEAD
                                             nameval: element.name,
                                             priceval: element.price.obs,
+=======
+                                            taxval: element.tax,
+                                            nameval: element.name,
+                                            // priceval: element.price.toString(),
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
                                             desval: element.description,
                                             pincodeval: pincodestring.substring(
                                                 1, pincodestring.length - 1),
@@ -260,10 +269,25 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                 element.quantity.toString(),
                                             onsale: element.onsale,
                                             featured: element.featured,
+<<<<<<< HEAD
                                             category: element.category,
                                             isedit: true,
                                             docid: element.docid,
                                             image: element.photoUrl[0]);
+=======
+                                            // offerpriceval:
+                                            //     element.offerprice.toString(),
+                                            category: element.category,
+                                            // variationval: element.variationtype,
+                                            // rating: element.rating,
+                                            isedit: true,
+                                            // variationlistval: element.variation
+                                            //     .toString()
+                                            //     .replaceAll('[', '')
+                                            //     .replaceAll(']', ''),
+                                            docid: element.docid,
+                                            image: element.photo[0]);
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
                                       },
                                       expeditions: usersFiltered,
                                     ),
@@ -292,21 +316,35 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                         label: Text('Name'),
                                       ),
                                       DataColumn(
+<<<<<<< HEAD
                                         label: Text('Price'),
                                       ),
                                       DataColumn(
                                         label: Text('Product ID'),
                                       ),
 
+=======
+                                        label: Text('Product ID'),
+                                      ),
+                                      // DataColumn(
+                                      //   label: Text('Price'),
+                                      // ),
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
                                       DataColumn(
                                         label: Text('Available Stock'),
                                       ),
                                       DataColumn(
                                         label: Text('On sale'),
                                       ),
+<<<<<<< HEAD
                                       // DataColumn(
                                       //   label: Text('Offer Price'),
                                       // ),
+=======
+                                      DataColumn(
+                                        label: Text('Offer Price'),
+                                      ),
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
                                       DataColumn(
                                         label: Text('Description'),
                                       ),
@@ -331,7 +369,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
       {BuildContext context,
       taxval,
       nameval,
+<<<<<<< HEAD
       RxList<Price> priceval,
+=======
+      // priceval,
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
       desval,
       pincodeval,
       stockval,
@@ -383,6 +425,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                           style: Theme.of(context).textTheme.title,
                         ),
                       ),
+<<<<<<< HEAD
                       url == ''
                           ? image == null
                               ? Container()
@@ -396,12 +439,17 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               height: 200,
                               width: double.infinity,
                             ),
+=======
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
                       Card(
                           color: secondaryColor,
                           child: Center(
                             child: TextButton.icon(
                                 onPressed: () => uploadToStorage(
+<<<<<<< HEAD
                                     state: setstate,
+=======
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
                                     fileName:
                                         DateTime.now().millisecondsSinceEpoch),
                                 icon: Icon(Icons.upload_file),
@@ -452,6 +500,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                           color: secondaryColor,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
+<<<<<<< HEAD
                             child:
                                 //  Obx(
                                 //   () =>
@@ -1029,11 +1078,245 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                   child: Text('False'),
                                 ),
                               ],
+=======
+                            child: Obx(
+                              () => Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                PriceDetails(),
+                                          ),
+                                        );
+                                        print(productsController.price);
+                                      },
+                                      child: Text('Add Price'),
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                primaryColor),
+                                      ),
+                                    ),
+                                    Card(
+                                      color: bgColor,
+                                      // child: ListView.builder(
+                                      //     shrinkWrap: true,
+                                      //     itemCount:
+                                      //         productsController.price.length,
+                                      //     itemBuilder: (context, index) {
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: DataTable(
+                                          rows: productsController.price.map(
+                                            (element) => DataRow(
+                                              cells: [
+                                                DataCell(
+                                                  Text(element.variation),
+                                                ),
+                                                DataCell(
+                                                  Text(element.price),
+                                                ),
+                                                DataCell(
+                                                  Text(element.offerprice),
+                                                )
+                                              ],
+                                            ),
+                                          ).toList(),
+                                          columns: [
+                                            // DataColumn(
+                                            //   label: Text('SI.No'),
+                                            // ),
+                                            DataColumn(
+                                              label: Text('Variation'),
+                                            ),
+                                            DataColumn(
+                                              label: Text('MRP'),
+                                            ),
+                                            DataColumn(
+                                              label: Text('Offer Price'),
+                                            ),
+                                          ],
+                                        ),
+                                        // child: Row(
+                                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        //   children: [
+                                        //     Text(productsController
+                                        //         .price[index].variation),
+                                        //         Text(productsController
+                                        //         .price[index].price),
+                                        //         Text(productsController
+                                        //         .price[index].variation),
+                                        //   ],
+                                        // ),
+                                      ),
+                                    ),
+                                  ]),
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
                             ),
                           ),
                         ),
                       ),
+<<<<<<< HEAD
 
+=======
+                      // Card(
+                      //   color: secondaryColor,
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(8.0),
+                      //     child: ListTile(
+                      //       title: Text('Variation'),
+                      //       trailing: DropdownButton(
+                      //         value: variationval,
+                      //         onChanged: (value) {
+                      //           setstate(() {
+                      //             variationval = value;
+                      //           });
+                      //         },
+                      //         items: [
+                      //           DropdownMenuItem(
+                      //             value: 'Kg',
+                      //             child: Text('Kg'),
+                      //           ),
+                      //           DropdownMenuItem(
+                      //             value: 'Ml',
+                      //             child: Text('Ml'),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // Card(
+                      //   color: secondaryColor,
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(8.0),
+                      //     child: TextField(
+                      //       controller: variationlist,
+                      //       decoration: InputDecoration(
+                      //           labelText:
+                      //               'Enter List of Quantity seperated by comma (,); Eg. 500g, 250g, 1Kg',
+                      //           floatingLabelBehavior:
+                      //               FloatingLabelBehavior.always),
+                      //     ),
+                      //   ),
+                      // ),
+                      Card(
+                        color: secondaryColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            title: Text('Featured Product'),
+                            trailing: DropdownButton(
+                              value: featured,
+                              onChanged: (value) {
+                                setstate(() {
+                                  featured = value;
+                                });
+                              },
+                              items: [
+                                DropdownMenuItem(
+                                  value: true,
+                                  child: Text('True'),
+                                ),
+                                DropdownMenuItem(
+                                  value: false,
+                                  child: Text('False'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        color: secondaryColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: pincode,
+                            decoration: InputDecoration(
+                                labelText:
+                                    'Enter List of Pincode seperated by comma (,)',
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        color: secondaryColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: tax,
+                            decoration: InputDecoration(
+                                hintText: 'Enter Product Tax in %',
+                                labelText: 'Enter Product Tax in %',
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        color: secondaryColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: stock,
+                            decoration: InputDecoration(
+                                labelText: 'Enter Total Product Stock ',
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        color: secondaryColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            title: Text('On Sale'),
+                            trailing: DropdownButton(
+                              value: onsale,
+                              onChanged: (value) {
+                                setstate(() {
+                                  onsale = value;
+                                });
+                              },
+                              items: [
+                                DropdownMenuItem(
+                                  value: true,
+                                  child: Text('True'),
+                                ),
+                                DropdownMenuItem(
+                                  value: false,
+                                  child: Text('False'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      // ),
+                      // Visibility(
+                      //   visible: onsale,
+                      //   child: Card(
+                      //     color: secondaryColor,
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.all(8.0),
+                      //       child: TextField(
+                      //         controller: offerprice,
+                      //         decoration: InputDecoration(
+                      //             labelText: 'Offer Price',
+                      //             floatingLabelBehavior:
+                      //                 FloatingLabelBehavior.always),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
                       Card(
                         color: secondaryColor,
                         child: Padding(
@@ -1066,8 +1349,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             ElevatedButton(
                               onPressed: () {
                                 productsController.price.clear();
+<<<<<<< HEAD
                                 Navigator.pop(context);
                               },
+=======
+                                 Navigator.pop(context);},
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
                               child: Text('Cancel'),
                               style: ButtonStyle(
                                 backgroundColor:
@@ -1075,6 +1362,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               ),
                             ),
                             ElevatedButton(
+<<<<<<< HEAD
                               onPressed: () {
                                 print(isedit);
                                 isedit
@@ -1139,6 +1427,54 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                         // "variation": variationlist.text.split(',')
                                       });
                               },
+=======
+                              onPressed: (){
+                                
+                                isedit
+                                  ? productsController.updateProducts({
+                                      "name": pname.text,
+                                      "category": category,
+                                      "photo_url": [image],
+                                      "price": productsController.price.map((element) => {'variation':element.variation,
+                                      'mrp':element.price,
+                                      'offerprice':element.offerprice}).toList(),
+                                      "quantity": double.parse(stock.text),
+                                      "tax": tax.text,
+                                      // "variationtype": variationval,
+                                      "onsale": onsale,
+                                      "description": pdescription.text,
+                                      "featured": featured,
+                                      "product_id": uuid.v1(),
+
+                                      "pincode": pincode.text.split(','),
+                                      // "discount": offerprice.text.isEmpty
+                                      //     ? regularprice.text
+                                      //     : offerprice.text,
+                                      // "variation": variationlist.text.split(',')
+                                    }, docid)
+                                  : productsController.addProducts({
+                                      // "variationtype" :
+                                      "name": pname.text,
+                                      "category": category,
+                                      "photo_url": [url],
+                                      "price": productsController.price.map((element) => {'variation':element.variation,
+                                      'mrp':element.price,
+                                      'offerprice':element.offerprice}).toList(),
+                                      "quantity": double.parse(stock.text),
+                                      // "variationtype": variationval,
+                                      "onsale": onsale,
+                                      "description": pdescription.text,
+                                      "featured": featured,
+                                      "tax": tax.text,
+                                      "product_id": uuid.v1(),
+
+                                      "pincode": pincode.text.split(','),
+                                      // "discount": offerprice.text.isEmpty
+                                      //     ? regularprice.text
+                                      //     : offerprice.text,
+                                      // "variation": variationlist.text.split(',')
+                                    });},
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
                               child: Text('Save'),
                               style: ButtonStyle(
                                 backgroundColor:
@@ -1150,6 +1486,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       )
                     ],
                   ),
+<<<<<<< HEAD
                 ),
               ),
             ),
@@ -1405,6 +1742,190 @@ class DataTableSourceExpedition extends DataTableSource {
 
   bool get isRowCountApproximate => false;
 
+=======
+                ),
+              ),
+            ),
+          );
+        });
+      },
+    );
+  }
+
+  void uploadImage({@required Function(File file) onSelected}) {
+    InputElement uploadInput = FileUploadInputElement();
+    uploadInput.click();
+
+    uploadInput.onChange.listen((event) {
+      final file = uploadInput.files.first;
+      final reader = FileReader();
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) {
+        onSelected(file);
+        showDialog(
+            context: Get.context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                content: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CircularProgressIndicator(),
+                      Text('Loading...')
+                    ]),
+              );
+            });
+      });
+    });
+  }
+
+  void uploadToStorage({fileName}) {
+    final path = 'products/$fileName';
+    uploadImage(onSelected: (file) {
+      fb
+          .storage()
+          .refFromURL('gs://digimart-44fde.appspot.com/')
+          .child(path)
+          .put(file)
+          .future
+          .then((data) async {
+        Uri uri = await data.ref.getDownloadURL();
+        setState(() {
+          url = uri.toString();
+        });
+        Navigator.pop(Get.context);
+      });
+    });
+  }
+}
+
+// class ExampleSource extends AdvancedDataTableSource<ProductModel> {
+//   final List<ProductModel> data;
+//   BuildContext context;
+//   ExampleSource({this.data, this.context});
+
+//   @override
+//   DataRow getRow(int index) {
+//     final currentRowData = lastDetails?.rows[index];
+//     return DataRow(cells: [
+
+//     ]);
+//   }
+
+class DataTableSourceExpedition extends DataTableSource {
+  List<ProductModel> expeditions = [];
+  Function onRowClicked;
+  Function onDeleteIconClick;
+  BuildContext context;
+
+  DataTableSourceExpedition(
+      {this.expeditions,
+      this.onRowClicked,
+      this.onDeleteIconClick,
+      this.context});
+  DataRow getRow(int index) {
+    final currentRowData = expeditions[index];
+
+    return DataRow.byIndex(
+        index: index,
+        cells: <DataCell>[
+          DataCell(
+            Text('${index + 1}'),
+          ),
+          DataCell(
+            IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () => showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('Are you sure'),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Do you want to delete ${currentRowData.name} ?',
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Cancel'),
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                primaryColor),
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        firebaseFirestore
+                                            .collection('products')
+                                            .doc(currentRowData.docid)
+                                            .delete();
+                                      },
+                                      child: Text('Delete'),
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                primaryColor),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    )),
+          ),
+          DataCell(
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: CachedNetworkImage(
+                imageUrl: currentRowData.photo[0],
+                placeholder: (context, url) =>
+                    Image.asset('assets/icons/loading.gif'),
+                height: 70,
+                width: 45,
+              ),
+            ),
+          ),
+          DataCell(
+            Text(currentRowData.name),
+          ),
+          DataCell(Text(currentRowData.productid)),
+          // DataCell(Text(currentRowData.price)),
+          DataCell(Text(currentRowData.quantity.toString())),
+          DataCell(Text(currentRowData.onsale.toString())),
+          DataCell(Text(currentRowData.offerprice)),
+          DataCell(
+            SizedBox(
+              width: 200,
+              child: Text(
+                currentRowData.description,
+                style: TextStyle(fontSize: 12.0),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+          DataCell(
+            Text(currentRowData.category),
+          ),
+        ],
+        onSelectChanged: (b) => onRowClicked(index));
+  }
+
+  bool get isRowCountApproximate => false;
+
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
   int get rowCount => expeditions.length;
 
   int get selectedRowCount => 0;
