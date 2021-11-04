@@ -7,13 +7,17 @@ class OrderModel {
   static const PINCODE = "pincode";
   static const DATETIME = "datetime";
   static const STATUS = "deliverystatus";
+  static const USERID = "userId";
+  static const DOCID = "docId";
 
-  String id;
   double totalprice;
+  String id;
   String cusname;
   String address;
   String phone;
   String pincode;
+  String userId;
+  String docId;
   var datetime;
   String status;
   List<OrderItemModel> item;
@@ -21,20 +25,27 @@ class OrderModel {
   OrderModel(
       {this.address,
       this.status,
+      this.id,
       this.item,
       this.cusname,
+      this.userId,
+      this.docId,
       this.totalprice,
       this.datetime,
       this.phone,
       this.pincode});
 
-  OrderModel.fromMap(Map<String, dynamic> data) {
+  OrderModel.fromMap(Map<String, dynamic> data, idval) {
+    id = idval;
     phone = data[PHONE];
     address = data[ADDRESS];
     cusname = data[CUSNAME];
+    docId = data[DOCID];
     pincode = data[PINCODE];
     datetime = data[DATETIME];
+    totalprice = data[TOTALPRICE];
     status = data[STATUS];
+    userId = data[USERID];
     item = _convertCartItems(data[ITEM]);
   }
 }
@@ -57,18 +68,18 @@ class OrderItemModel {
   static const ID = "orderId";
   static const IMAGE = "image";
   static const PNAME = "name";
-  static const QUANTITY = "quantity";
+  static const QUANTITY = "number";
   static const COST = "cost";
   static const PRICE = "price";
   static const PRODUCT_ID = "productId";
-  static const VARIATIONTYPE = "variationtype";
+  static const VARIATIONTYPE = "quantity";
 
   String id;
   String image;
-  int quantity;
-  double cost;
+  var quantity;
+  String cost;
   String productId;
-  double price;
+  String price;
   String variationtype;
   String pname;
 
@@ -103,4 +114,19 @@ class OrderItemModel {
         COST: price,
         PRICE: price,
       };
+}
+
+class OrderConfigModel {
+  static const RANGE = 'range';
+  static const MINFEE = 'minfee';
+  static const MAXFEE = 'maxfee';
+  String minfee;
+  String maxfee;
+  String range;
+  OrderConfigModel({this.minfee, this.maxfee, this.range});
+  OrderConfigModel.fromMap(data) {
+    minfee = data[MINFEE];
+    maxfee = data[MAXFEE];
+    range = data[RANGE];
+  }
 }

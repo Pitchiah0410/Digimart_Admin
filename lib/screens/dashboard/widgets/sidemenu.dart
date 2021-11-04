@@ -1,6 +1,8 @@
+import 'package:digimartadmin/constants/constants.dart';
 import 'package:digimartadmin/constants/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -16,13 +18,15 @@ class SideMenu extends StatelessWidget {
           children: [
             DrawerHeader(
               child: Center(
-                  child: Text(
-                'Digimart',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    .copyWith(color: Colors.white),
-              )),
+                child: Image.asset('assets/icons/logo.png'),
+                //   child: Text(
+                // 'Digimart',
+                // style: Theme.of(context)
+                //     .textTheme
+                //     .headline4
+                //     .copyWith(color: Colors.white),
+                // )
+              ),
             ),
             ListTile(
               onTap: () {
@@ -33,8 +37,22 @@ class SideMenu extends StatelessWidget {
             ),
             Divider(),
             ListTile(
+              onTap: () => userController.controller.jumpToPage(3),
+              leading: Icon(Icons.shopping_cart),
+              title: Text("Order"),
+            ),
+            Divider(),
+            ListTile(
+              onTap: () => userController.controller.jumpToPage(5),
+              leading: Icon(Icons.supervisor_account),
+              title: Text("Users"),
+            ),
+            Divider(),
+            ListTile(
               onTap: () {
-                userController.controller.jumpToPage(1);
+               productsController.products.bindStream(productsController.getAllProducts());
+                Future.delayed(Duration(microseconds: 00), () => userController.controller.animateToPage(1, duration:Duration(microseconds: 300),
+  curve: Curves.easeInOut,));
               },
               leading: Icon(Icons.shopping_bag),
               title: Text("Products"),
@@ -45,30 +63,15 @@ class SideMenu extends StatelessWidget {
               leading: Icon(Icons.list),
               title: Text("Category"),
             ),
+            
             Divider(),
             ListTile(
-              onTap: () => userController.controller.jumpToPage(3),
-              leading: Icon(Icons.shopping_cart),
-              title: Text("Order"),
-            ),
-            Divider(),
-            ListTile(
-              onTap: () => userController.controller.jumpToPage(4),
-              leading: Icon(Icons.local_offer),
-              title: Text("Offer"),
-            ),
-            Divider(),
-            ListTile(
-              onTap: () => userController.controller.jumpToPage(5),
-              leading: Icon(Icons.supervisor_account),
-              title: Text("Users"),
-            ),
-            Divider(),
-            ListTile(
+              onTap: () {
+                auth.signOut();
+              },
               leading: Icon(Icons.logout),
-              title: Text("Logout"),
+              title: Text("Log Out"),
             ),
-            Divider(),
           ],
         ),
       ),

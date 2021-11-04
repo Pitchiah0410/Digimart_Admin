@@ -1,8 +1,15 @@
-import 'package:digimartadmin/constants/controllers.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+import 'dart:html';
 
+import 'package:digimartadmin/constants/constants.dart';
+import 'package:digimartadmin/constants/controllers.dart';
+import 'package:digimartadmin/models/productmodel.dart';
+import 'package:digimartadmin/screens/products/pricedetails.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'dart:async';
+import 'package:firebase/firebase.dart' as fb;
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:uuid/uuid.dart';
 import '../../constants.dart';
 
 class ProductsScreen extends StatefulWidget {
@@ -11,283 +18,487 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  String dropdownValue = 'All';
+  TextEditingController minfee =
+      TextEditingController(text: orderController.ordercongig.minfee);
+  TextEditingController maxfee =
+      TextEditingController(text: orderController.ordercongig.maxfee);
+  TextEditingController range =
+      TextEditingController(text: orderController.ordercongig.range);
+
+  ScrollController horizontalcontroller = ScrollController();
+  ScrollController verticalcontroller = ScrollController();
+  List<ProductModel> usersFiltered = [];
+  TextEditingController controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    usersFiltered = productsController.products;
+  }
+
+  var rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
+    return Scrollbar(
+      showTrackOnHover: true,
+      controller: horizontalcontroller,
+      isAlwaysShown: true,
       child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Obx(
-          () => Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 200,
-                        child: SearchField(),
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return Obx(
-                                () => Dialog(
-                                  backgroundColor: bgColor,
-                                  child: SingleChildScrollView(
-                                    child: SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.5,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'Add Products',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .title,
-                                            ),
-                                          ),
-                                          Card(
-                                            color: secondaryColor,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: TextField(
-                                                decoration: InputDecoration(
-                                                    hintText:
-                                                        'Enter Product Name'),
-                                              ),
-                                            ),
-                                          ),
-                                          Card(
-                                            color: secondaryColor,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: TextField(
-                                                decoration: InputDecoration(
-                                                    hintText:
-                                                        'Enter Regular Price'),
-                                              ),
-                                            ),
-                                          ),
-                                          Card(
-                                            color: secondaryColor,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: TextField(
-                                                decoration: InputDecoration(
-                                                    hintText:
-                                                        'Enter Product Description'),
-                                              ),
-                                            ),
-                                          ),
-                                          Card(
-                                            color: secondaryColor,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: TextField(
-                                                decoration: InputDecoration(
-                                                    hintText:
-                                                        'Enter Product Pincode'),
-                                              ),
-                                            ),
-                                          ),
-                                          Card(
-                                            color: secondaryColor,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: TextField(
-                                                decoration: InputDecoration(
-                                                    hintText:
-                                                        'Enter Product Stock'),
-                                              ),
-                                            ),
-                                          ),
-                                          Card(
-                                            color: secondaryColor,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: TextField(
-                                                decoration: InputDecoration(
-                                                    hintText: 'Offer Price'),
-                                              ),
-                                            ),
-                                          ),
-                                          Card(
-                                            color: secondaryColor,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: ListTile(
-                                                title: Text(
-                                                    'Select your category :'),
-                                                trailing: DropdownButton(
-                                                  value: dropdownValue,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      this.dropdownValue =
-                                                          value;
-                                                    });
-                                                  },
-                                                  items: productsController
-                                                      .categories
-                                                      .map<
-                                                          DropdownMenuItem<
-                                                              String>>((value) {
-                                                    return DropdownMenuItem<
-                                                        String>(
-                                                      value: value,
-                                                      child: Text(value),
-                                                    );
-                                                  }).toList(),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              ElevatedButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: Text('Cancel'),
-                                                style: ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all(
-                                                          primaryColor),
-                                                ),
-                                              ),
-                                              ElevatedButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: Text('Save'),
-                                                style: ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all(
-                                                          primaryColor),
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
+        controller: horizontalcontroller,
+        scrollDirection: Axis.horizontal,
+        child: Scrollbar(
+          showTrackOnHover: true,
+          controller: verticalcontroller,
+          isAlwaysShown: true,
+          child: SingleChildScrollView(
+            controller: verticalcontroller,
+            scrollDirection: Axis.vertical,
+            child: Obx(
+              () => productsController.products.isEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SizedBox(
+                                  height: 60,
+                                  width: 300,
+                                  child: Card(
+                                    color: secondaryColor,
+                                    child: new ListTile(
+                                      leading: new Icon(Icons.search),
+                                      title: new TextField(
+                                          controller: controller,
+                                          decoration: new InputDecoration(
+                                              hintText: 'Search',
+                                              border: InputBorder.none),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              usersFiltered = productsController
+                                                  .products
+                                                  .where((products) =>
+                                                      products.name
+                                                          .toLowerCase()
+                                                          .contains(value
+                                                              .toLowerCase()) ||
+                                                      products.category
+                                                          .contains(value
+                                                              .toLowerCase()))
+                                                  .toList();
+                                            });
+                                          }),
                                     ),
                                   ),
                                 ),
-                              );
-                            },
-                          );
-                        },
-                        icon: Icon(Icons.add),
-                        label: Text('Add Item'),
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(primaryColor),
-                        ),
+                                SizedBox(
+                                  width: 50,
+                                ),
+                                ElevatedButton.icon(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => AddProducts(
+                                                  isedit: false,
+                                                  onsale: true,
+                                                  featured: false,
+                                                  category: productsController
+                                                      .categories.first.title,
+                                                )));
+                                  },
+                                  icon: Icon(Icons.add),
+                                  label: Text('Add Item'),
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(primaryColor),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Text('MinFee : '),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width: 50,
+                                        child: TextField(
+                                          textAlignVertical:
+                                              TextAlignVertical.center,
+                                          textAlign: TextAlign.center,
+                                          controller: minfee,
+                                        ),
+                                      ),
+                                    ),
+                                    IconButton(
+                                        icon: Icon(Icons.check),
+                                        onPressed: () {
+                                          firebaseFirestore
+                                              .collection('settings')
+                                              .doc('deliveryoptions')
+                                              .update({
+                                            'minfee': minfee.text
+                                          }).whenComplete(() {
+                                            FocusScope.of(context).unfocus();
+                                          });
+                                        })
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Text('MaxFee : '),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width: 50,
+                                        child: TextField(
+                                          textAlignVertical:
+                                              TextAlignVertical.center,
+                                          textAlign: TextAlign.center,
+                                          controller: maxfee,
+                                        ),
+                                      ),
+                                    ),
+                                    IconButton(
+                                        icon: Icon(Icons.check),
+                                        onPressed: () {
+                                          firebaseFirestore
+                                              .collection('settings')
+                                              .doc('deliveryoptions')
+                                              .update({
+                                            'maxfee': maxfee.text
+                                          }).whenComplete(() {
+                                            FocusScope.of(context).unfocus();
+                                          });
+                                        })
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Text('Range Value : '),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width: 50,
+                                        child: TextField(
+                                          textAlignVertical:
+                                              TextAlignVertical.center,
+                                          textAlign: TextAlign.center,
+                                          controller: range,
+                                        ),
+                                      ),
+                                    ),
+                                    IconButton(
+                                        icon: Icon(Icons.check),
+                                        onPressed: () {
+                                          firebaseFirestore
+                                              .collection('settings')
+                                              .doc('deliveryoptions')
+                                              .update({
+                                            'range': range.text
+                                          }).whenComplete(() {
+                                            FocusScope.of(context).unfocus();
+                                          });
+                                        })
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'No Products Available',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline4
+                                  .copyWith(color: Colors.white70),
+                            ),
+                          )
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                DataTable(
-                  columns: [
-                    DataColumn(
-                      label: Text('SI.No'),
-                    ),
-                    DataColumn(
-                      label: Text('Image'),
-                    ),
-                    DataColumn(
-                      label: Text('Name'),
-                    ),
-                    DataColumn(
-                      label: Text('Product ID'),
-                    ),
-                    DataColumn(
-                      label: Text('Price'),
-                    ),
-                    DataColumn(
-                      label: Text('Available Stock'),
-                    ),
-                    DataColumn(
-                      label: Text('On sale'),
-                    ),
-                    DataColumn(
-                      label: Text('Offer Price'),
-                    ),
-                    DataColumn(
-                      label: Text('Description'),
-                    ),
-                    DataColumn(
-                      label: Text('Category'),
-                    ),
-                    DataColumn(
-                      label: Text('Actions'),
-                    ),
-                  ],
-                  rows: productsController.products
-                      .map(
-                        (element) => DataRow(cells: [
-                          DataCell(Text('1')),
-                          DataCell(
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Image.network(
-                                element.photo[0],
-                                height: 120,
-                                width: 120,
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SizedBox(
+                                  height: 60,
+                                  width: 300,
+                                  child: Card(
+                                    color: secondaryColor,
+                                    child: new ListTile(
+                                      leading: new Icon(Icons.search),
+                                      title: new TextField(
+                                          controller: controller,
+                                          decoration: new InputDecoration(
+                                              hintText: 'Search',
+                                              border: InputBorder.none),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              usersFiltered = productsController
+                                                  .products
+                                                  .where((products) =>
+                                                      products.name
+                                                          .toLowerCase()
+                                                          .contains(value
+                                                              .toLowerCase()) ||
+                                                      products.category
+                                                          .contains(value
+                                                              .toLowerCase()))
+                                                  .toList();
+                                            });
+                                          }),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 50,
+                                ),
+                                ElevatedButton.icon(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => AddProducts(
+                                            isedit: false,
+                                            onsale: false,
+                                            featured: false,
+                                            category: productsController
+                                                .categories.first.title,
+                                          ),
+                                        ));
+                                  },
+                                  icon: Icon(Icons.add),
+                                  label: Text('Add Item'),
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(primaryColor),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Text('MinFee : '),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width: 50,
+                                        child: TextField(
+                                          textAlignVertical:
+                                              TextAlignVertical.center,
+                                          textAlign: TextAlign.center,
+                                          controller: minfee,
+                                        ),
+                                      ),
+                                    ),
+                                    IconButton(
+                                        icon: Icon(Icons.check),
+                                        onPressed: () {
+                                          firebaseFirestore
+                                              .collection('settings')
+                                              .doc('deliveryoptions')
+                                              .update({
+                                            'minfee': minfee.text
+                                          }).whenComplete(() {
+                                            FocusScope.of(context).unfocus();
+                                          });
+                                        })
+                                  ],
+                                ),
                               ),
-                            ),
-                          ),
-                          DataCell(Text(element.name)),
-                          DataCell(Text(element.productid)),
-                          DataCell(Text(element.price.toString())),
-                          DataCell(Text(element.quantity.toString())),
-                          DataCell(Text(element.onsale.toString())),
-                          DataCell(Text('65')),
-                          DataCell(
-                            SizedBox(
-                              width: 200,
-                              child: Text(
-                                element.description,
-                                style: TextStyle(fontSize: 12.0),
-                                overflow: TextOverflow.ellipsis,
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Text('MaxFee : '),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width: 50,
+                                        child: TextField(
+                                          textAlignVertical:
+                                              TextAlignVertical.center,
+                                          textAlign: TextAlign.center,
+                                          controller: maxfee,
+                                        ),
+                                      ),
+                                    ),
+                                    IconButton(
+                                        icon: Icon(Icons.check),
+                                        onPressed: () {
+                                          firebaseFirestore
+                                              .collection('settings')
+                                              .doc('deliveryoptions')
+                                              .update({
+                                            'maxfee': maxfee.text
+                                          }).whenComplete(() {
+                                            FocusScope.of(context).unfocus();
+                                          });
+                                        })
+                                  ],
+                                ),
                               ),
-                            ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Text('Range Value : '),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width: 50,
+                                        child: TextField(
+                                          textAlignVertical:
+                                              TextAlignVertical.center,
+                                          textAlign: TextAlign.center,
+                                          controller: range,
+                                        ),
+                                      ),
+                                    ),
+                                    IconButton(
+                                        icon: Icon(Icons.check),
+                                        onPressed: () {
+                                          firebaseFirestore
+                                              .collection('settings')
+                                              .doc('deliveryoptions')
+                                              .update({
+                                            'range': range.text
+                                          }).whenComplete(() {
+                                            FocusScope.of(context).unfocus();
+                                          });
+                                        })
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                          DataCell(
-                            Text(element.category),
-                          ),
-                          DataCell(
-                            Row(
-                              children: [],
-                            ),
-                          ),
-                        ]),
-                      )
-                      .toList(),
-                ),
-              ],
+                          usersFiltered == null || usersFiltered.length == 0
+                              ? Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.81,
+                                  child: PaginatedDataTable(
+                                    showCheckboxColumn: false,
+                                    source: DataTableSourceExpedition(
+                                      context: context,
+                                      onRowClicked: (index) {
+                                        var element = usersFiltered[index];
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => AddProducts(
+                                                nameval: element.name,
+                                                brandnameval: element.brand,
+                                                desval: element.description,
+                                                stockval: element.quantity
+                                                    ?.toString(),
+                                                onsale: element.onsale,
+                                                featured: element.featured,
+                                                offerpriceval: element
+                                                    .offerprice
+                                                    ?.toString(),
+                                                category: element.category,
+                                                variationval: element.variation,
+                                                isedit: true,
+                                                mrpval: element.mrp?.toString(),
+                                                type: element.type,
+                                                docid: element.docid,
+                                                image: element.photo),
+                                          ),
+                                        );
+                                      },
+                                      expeditions: usersFiltered,
+                                    ),
+                                    showFirstLastButtons: true,
+                                    rowsPerPage: rowsPerPage,
+                                    availableRowsPerPage: [1, 5, 10, 50],
+                                    onRowsPerPageChanged: (newRowsPerPage) {
+                                      if (newRowsPerPage != null) {
+                                        setState(() {
+                                          rowsPerPage = newRowsPerPage;
+                                        });
+                                      }
+                                    },
+
+                                    columns: [
+                                      DataColumn(
+                                        label: Text('SI.No'),
+                                      ),
+                                      DataColumn(
+                                        label: Text('Delete'),
+                                      ),
+                                      DataColumn(
+                                        label: Text('Image'),
+                                      ),
+                                      DataColumn(
+                                        label: Text('Name'),
+                                      ),
+                                      DataColumn(
+                                        label: Text('Brand'),
+                                      ),
+                                      DataColumn(
+                                        label: Text('Product ID'),
+                                      ),
+                                      DataColumn(
+                                        label: Text('On sale'),
+                                      ),
+                                      DataColumn(
+                                        label: Text('MRP'),
+                                      ),
+                                      DataColumn(
+                                        label: Text('Offer Price'),
+                                      ),
+                                      DataColumn(
+                                        label: Text('Type'),
+                                      ),
+                                      DataColumn(
+                                        label: Text('Available Stock'),
+                                      ),
+                                      DataColumn(
+                                        label: Text('Category'),
+                                      ),
+                                      DataColumn(
+                                        label: Text('Description'),
+                                      ),
+                                    ],
+                                    // rows:
+                                  ),
+                                ),
+                        ],
+                      ),
+                    ),
             ),
           ),
         ),
@@ -296,35 +507,156 @@ class _ProductsScreenState extends State<ProductsScreen> {
   }
 }
 
-class SearchField extends StatelessWidget {
-  const SearchField({
-    Key key,
-  }) : super(key: key);
+class DataTableSourceExpedition extends DataTableSource {
+  List<ProductModel> expeditions = [];
+  Function onRowClicked;
+  Function onDeleteIconClick;
+  BuildContext context;
 
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        hintText: "Search",
-        fillColor: secondaryColor,
-        filled: true,
-        border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-        ),
-        suffixIcon: InkWell(
-          onTap: () {},
-          child: Container(
-            padding: EdgeInsets.all(16.0 * 0.75),
-            margin: EdgeInsets.symmetric(horizontal: 16.0 / 2),
-            decoration: BoxDecoration(
-              color: primaryColor,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-            ),
-            child: SvgPicture.asset("assets/icons/Search.svg"),
+  DataTableSourceExpedition(
+      {this.expeditions,
+      this.onRowClicked,
+      this.onDeleteIconClick,
+      this.context});
+  DataRow getRow(int index) {
+    final currentRowData = expeditions[index];
+
+    return DataRow.byIndex(
+        index: index,
+        cells: <DataCell>[
+          DataCell(
+            Text('${index + 1}'),
           ),
-        ),
-      ),
-    );
+          DataCell(
+            IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () => showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('Are you sure'),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Do you want to delete ${currentRowData.name} ?',
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Cancel'),
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                primaryColor),
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Get.defaultDialog(
+                                            title: "Loading...",
+                                            content:
+                                                CircularProgressIndicator(),
+                                            barrierDismissible: false);
+                                        firebaseFirestore
+                                            .collection('products')
+                                            .doc(currentRowData.docid)
+                                            .delete()
+                                            .then(
+                                          (value) {
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                          },
+                                        );
+                                      },
+                                      child: Text('Delete'),
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                primaryColor),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    )),
+          ),
+          DataCell(
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: CachedNetworkImage(
+                imageUrl: currentRowData.photo.first,
+                placeholder: (context, url) =>
+                    Image.asset('assets/icons/loading.gif'),
+                height: 70,
+                width: 45,
+              ),
+            ),
+          ),
+          DataCell(
+            Text(currentRowData.name),
+          ),
+          DataCell(
+            Text(currentRowData.brand),
+          ),
+          DataCell(
+            Text(currentRowData.productid),
+          ),
+          DataCell(
+            Text(
+              currentRowData.onsale.toString(),
+            ),
+          ),
+          DataCell(
+            Text(
+              currentRowData.mrp.toString(),
+            ),
+          ),
+          DataCell(
+            Text(
+              currentRowData.offerprice.toString(),
+            ),
+          ),
+          DataCell(
+            Text(currentRowData.type),
+          ),
+          DataCell(
+            Text(
+              currentRowData.quantity.toString(),
+            ),
+          ),
+          DataCell(
+            Text(currentRowData.category),
+          ),
+          DataCell(
+            SizedBox(
+              width: 200,
+              child: Text(
+                currentRowData.description,
+                style: TextStyle(fontSize: 12.0),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ],
+        onSelectChanged: (b) => onRowClicked(index));
   }
+
+  bool get isRowCountApproximate => false;
+
+  int get rowCount => expeditions.length;
+
+  int get selectedRowCount => 0;
 }
