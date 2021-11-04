@@ -35,7 +35,11 @@ class OrderModel {
       this.phone,
       this.pincode});
 
+<<<<<<< HEAD
   OrderModel.fromMap(Map<String, dynamic> data, idval) {
+=======
+  OrderModel.fromMap(Map<String, dynamic> data,idval) {
+>>>>>>> 55969c811a5c067a1f2add0aea00ccdd68303b3d
     id = idval;
     phone = data[PHONE];
     address = data[ADDRESS];
@@ -76,7 +80,11 @@ class OrderItemModel {
 
   String id;
   String image;
+<<<<<<< HEAD
   var quantity;
+=======
+  String quantity;
+>>>>>>> 55969c811a5c067a1f2add0aea00ccdd68303b3d
   String cost;
   String productId;
   String price;

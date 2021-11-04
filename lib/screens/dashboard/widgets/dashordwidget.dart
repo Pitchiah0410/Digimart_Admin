@@ -40,10 +40,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
           SizedBox(height: 16.0),
           Responsivecard(),
           Obx(
+<<<<<<< HEAD
             () =>
                 // orderController.orders.isEmpty
                 // ? loading():
                 _size.width > 650
+=======
+            () => 
+            // orderController.orders.isEmpty
+                // ? loading():
+                 _size.width > 650
+>>>>>>> 55969c811a5c067a1f2add0aea00ccdd68303b3d
                     ? Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -190,7 +197,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           color: bgColor,
                                           child: ListTile(
                                             title: Text(
+<<<<<<< HEAD
                                               '${data.name} (${data.variation})',
+=======
+<<<<<<< HEAD
+                                              '${data.name} (Kg)',
+=======
+                                              '${data.name} (${data.variationtype})',
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
+>>>>>>> 55969c811a5c067a1f2add0aea00ccdd68303b3d
                                               style: TextStyle(
                                                   color: data.quantity == 0
                                                       ? Colors.red
@@ -276,7 +291,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         color: bgColor,
                                         child: ListTile(
                                           title: Text(
+<<<<<<< HEAD
                                             '${data.name} (${data.variation})',
+=======
+<<<<<<< HEAD
+                                            '${data.name} (Kg)',
+=======
+                                            '${data.name} (${data.variationtype})',
+>>>>>>> d4fbe0a49caf64c7430b81dc31717f998ef81aa4
+>>>>>>> 55969c811a5c067a1f2add0aea00ccdd68303b3d
                                             style: TextStyle(
                                                 color: data.quantity == 0
                                                     ? Colors.red

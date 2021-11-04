@@ -13,9 +13,15 @@ import 'screens/login/login.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initialization.then((value) {
+<<<<<<< HEAD
     //   Get.put(UserController());
     //   Get.put(OrderController());
     //   Get.put(ProducsController());
+=======
+    Get.put(UserController());
+    Get.put(OrderController());
+    Get.put(ProducsController());
+>>>>>>> 55969c811a5c067a1f2add0aea00ccdd68303b3d
     Get.put(AuthController());
   });
   runApp(MyApp());
@@ -26,6 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+<<<<<<< HEAD
         title: 'Frehswheels Admin Panel',
         theme: ThemeData.dark().copyWith(
           cardTheme: CardTheme(color: bgColor),
@@ -37,6 +44,17 @@ class MyApp extends StatelessWidget {
           canvasColor: secondaryColor,
         ),
         home: LoginPage());
+=======
+        title: 'Groso Admin Panel',
+        theme: ThemeData.dark().copyWith(
+          cardTheme: CardTheme(color:bgColor),
+          scaffoldBackgroundColor: bgColor,
+          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme.copyWith(caption:TextStyle(color: Colors.white)))
+              .apply(bodyColor: Colors.white),
+          canvasColor: secondaryColor,
+        ),
+        home: MyHomePage());
+>>>>>>> 55969c811a5c067a1f2add0aea00ccdd68303b3d
   }
 }
 
