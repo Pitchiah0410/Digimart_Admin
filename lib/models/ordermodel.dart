@@ -35,11 +35,7 @@ class OrderModel {
       this.phone,
       this.pincode});
 
-<<<<<<< HEAD
-  OrderModel.fromMap(Map<String, dynamic> data, idval) {
-=======
   OrderModel.fromMap(Map<String, dynamic> data,idval) {
->>>>>>> 55969c811a5c067a1f2add0aea00ccdd68303b3d
     id = idval;
     phone = data[PHONE];
     address = data[ADDRESS];
@@ -72,19 +68,15 @@ class OrderItemModel {
   static const ID = "orderId";
   static const IMAGE = "image";
   static const PNAME = "name";
-  static const QUANTITY = "number";
+  static const QUANTITY = "quantity";
   static const COST = "cost";
   static const PRICE = "price";
   static const PRODUCT_ID = "productId";
-  static const VARIATIONTYPE = "quantity";
+  static const VARIATIONTYPE = "variationtype";
 
   String id;
   String image;
-<<<<<<< HEAD
-  var quantity;
-=======
   String quantity;
->>>>>>> 55969c811a5c067a1f2add0aea00ccdd68303b3d
   String cost;
   String productId;
   String price;

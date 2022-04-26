@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digimartadmin/constants/constants.dart';
 import 'package:digimartadmin/models/productmodel.dart';
 import 'package:digimartadmin/screens/products/pricedetails.dart';
@@ -14,11 +13,7 @@ class ProducsController extends GetxController {
   // String collection = "products";
   RxList<CategoryModel> categories = RxList([]);
   RxList carousel = RxList([]);
-<<<<<<< HEAD
-  // RxList<PriceData> price = RxList([]);
-=======
   RxList<PriceData> price = RxList([]);
->>>>>>> 55969c811a5c067a1f2add0aea00ccdd68303b3d
 
   @override
   onReady() {
@@ -55,17 +50,10 @@ class ProducsController extends GetxController {
       .orderBy('name')
       .snapshots()
       .map((query) => query.docs
-<<<<<<< HEAD
-          .map((item) => ProductModel.fromMap(item.data(), item.id, item))
-          .toList());
-
-  addProducts(data, {docid}) {
-=======
           .map((item) => ProductModel.fromMap(item.data(), item.id))
           .toList());
 
   addProducts(data) {
->>>>>>> 55969c811a5c067a1f2add0aea00ccdd68303b3d
     showDialog(
         context: Get.context,
         builder: (BuildContext context) {
@@ -75,14 +63,7 @@ class ProducsController extends GetxController {
                 children: [CircularProgressIndicator(), Text('Loading...')]),
           );
         });
-<<<<<<< HEAD
-    docid == null ? firebaseFirestore.collection('products').add(data).whenComplete(() {
-      Navigator.pop(Get.context);
-      Navigator.pop(Get.context);
-    }) : firebaseFirestore.collection('products').doc(docid).set(data,SetOptions(merge:true),).whenComplete(() {
-=======
     firebaseFirestore.collection('products').add(data).whenComplete(() {
->>>>>>> 55969c811a5c067a1f2add0aea00ccdd68303b3d
       Navigator.pop(Get.context);
       Navigator.pop(Get.context);
     });
@@ -103,11 +84,7 @@ class ProducsController extends GetxController {
         .doc(docid)
         .update(data)
         .whenComplete(() {
-<<<<<<< HEAD
-          // price.clear();
-=======
           price.clear();
->>>>>>> 55969c811a5c067a1f2add0aea00ccdd68303b3d
       Navigator.pop(Get.context);
       Navigator.pop(Get.context);
     });
